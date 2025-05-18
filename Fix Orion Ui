@@ -742,9 +742,9 @@ AddConnection(CloseBtn.MouseButton1Up, function()
     MobileReopenButton.Visible = true
     UIHidden = true
     OrionLib:MakeNotification({
-        Name = "Interface Hidden",
+        Name = "非表示や表示の切り替え",
         Content = "パソコンの方はキーボードでMキーで切り替えできます\nスマホの方はすみませんがキーボードスクリプトの方からMキーで切り替えできます",
-        Time = 5
+        Time = 13
     })
     WindowConfig.CloseCallback()
 end)
