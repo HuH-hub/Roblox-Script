@@ -742,8 +742,8 @@ AddConnection(CloseBtn.MouseButton1Up, function()
     MobileReopenButton.Visible = true
     UIHidden = true
     OrionLib:MakeNotification({
-        Name = "非表示または表示するにはどうすればいいか",
-        Content = "Tap the open button to reopen the interface. Or Press Key M To Close Or Open",
+        Name = "ああああ",
+        Content = "あああああああ",
         Time = 5
     })
     WindowConfig.CloseCallback()
