@@ -743,8 +743,9 @@ AddConnection(CloseBtn.MouseButton1Up, function()
     UIHidden = true
     OrionLib:MakeNotification({
         Name = "非表示や表示の切り替え",
-        Content = "パソコンの方はキーボードでMキーで切り替えできます\nスマホの方はすみませんがキーボードスクリプトの方からMキーで切り替えできます",
-        Time = 13
+        Content = "パソコンの方はキーボードでMキーで切り替えできます\nスマホの方はキーボードスクリプトの方からMキーで切り替えできます",
+        Time = 13,
+        Image = "rbxassetid://7733911828" -- ここに使いたい画像IDを入れる
     })
     WindowConfig.CloseCallback()
 end)
