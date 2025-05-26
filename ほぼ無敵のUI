@@ -3,85 +3,71 @@ local HttpService = game:GetService("HttpService")
 local CoreGui = game:GetService("CoreGui")
 local SoundService = game:GetService("SoundService")
 
-local WHITELIST_URL = "https://raw.githubusercontent.com/HuH-hub/Roblox-Script/refs/heads/main/%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AA%E3%82%B9%E3%83%88"
+local WHITELIST_URL = "https://raw.githubusercontent.com/yourusername/yourrepo/main/whitelist.txt"
 
-local function IsPlayerWhitelisted()
+local localPlayer = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
+
+local function isPlayerWhitelisted(userId)
     local success, response = pcall(function()
         return HttpService:GetAsync(WHITELIST_URL)
     end)
 
-    if not success or not response then
-        -- 取得失敗時はホワイトリストにいない扱い（安全側）
-        return false
-    end
-
-    local parseSuccess, parsed = pcall(function()
-        return HttpService:JSONDecode(response)
-    end)
-
-    if not parseSuccess or not parsed or not parsed.Whitelist then
-        return false
-    end
-
-    for _, id in ipairs(parsed.Whitelist) do
-        if id == Players.LocalPlayer.UserId then
-            return true
+    if success and response then
+        for line in response:gmatch("[^\r\n]+") do
+            if tonumber(line) == userId then
+                return true
+            end
         end
     end
-
     return false
 end
 
--- ここからがメイン処理開始
-
-local isWhitelisted = IsPlayerWhitelisted()
-
-if not isWhitelisted then
-    -- ホワイトリストにない場合のみ以下を実行
-
-    -- 音楽再生（ループ）
-    local existingSound = SoundService:FindFirstChild("ExploitLoopSound")
-    if existingSound then
-        existingSound:Destroy()
-    end
-
-    local sound = Instance.new("Sound")
-    sound.Name = "ExploitLoopSound"
-    sound.SoundId = "rbxassetid://3200130016"
-    sound.Volume = 50
-    sound.Looped = true
-    sound.Parent = SoundService
-    sound:Play()
-
-    -- GUI 表示と画像ボタン
-    local gui = Instance.new("ScreenGui")
-    gui.Name = "FixedImageOverlay"
-    gui.IgnoreGuiInset = true
-    gui.ResetOnSpawn = false
-    gui.DisplayOrder = 1000
-    gui.Parent = CoreGui
-
-    local imageButton = Instance.new("ImageButton")
-    imageButton.Name = "FamilyPhotoButton"
-    imageButton.Image = "rbxassetid://14260038734"
-    imageButton.BackgroundTransparency = 1
-    imageButton.Size = UDim2.new(0, 150, 0, 150)
-    imageButton.Position = UDim2.new(0, -18, 0, -5)
-    imageButton.Parent = gui
-
-    imageButton.MouseButton1Click:Connect(function()
-        print("your are an idoit♪")
-        Players.LocalPlayer:Kick("キックされてる人＝ゲイな人(ホモ)")
-    end)
-
-    delay(10, function()
-        Players.LocalPlayer:Kick("あなたは本当に馬鹿ですね")
-    end)
-else
-    -- ホワイトリスト通過後の処理をここに書くか、
-    -- 何もしないならそのまま通過
+if isPlayerWhitelisted(localPlayer.UserId) then
+    -- ホワイトリストならここでスクリプト終了（何もしない）
+    return
 end
 
+-- ホワイトリストじゃない人だけ以下の処理を実行
+
+-- 音楽再生（ループ）
+local existingSound = SoundService:FindFirstChild("ExploitLoopSound")
+if existingSound then
+    existingSound:Destroy()
+end
+
+local sound = Instance.new("Sound")
+sound.Name = "ExploitLoopSound"
+sound.SoundId = "rbxassetid://3200130016"
+sound.Volume = 50
+sound.Looped = true
+sound.Parent = SoundService
+sound:Play()
+
+-- GUI 表示と画像ボタン
+local gui = Instance.new("ScreenGui")
+gui.Name = "FixedImageOverlay"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.DisplayOrder = 1000
+gui.Parent = CoreGui
+
+local imageButton = Instance.new("ImageButton")
+imageButton.Name = "FamilyPhotoButton"
+imageButton.Image = "rbxassetid://14260038734"
+imageButton.BackgroundTransparency = 1
+imageButton.Size = UDim2.new(0, 150, 0, 150)
+imageButton.Position = UDim2.new(0, -18, 0, -5)
+imageButton.Parent = gui
+
+imageButton.MouseButton1Click:Connect(function()
+    print("your are an idoit♪")
+    localPlayer:Kick("あなたは本当に馬鹿ですね")
+end)
+
+-- 10秒後にキック
+delay(10, function()
+    localPlayer:Kick("あなたは本当に馬鹿ですね")
+end)
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
