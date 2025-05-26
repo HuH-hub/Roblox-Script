@@ -842,12 +842,6 @@ AddConnection(CloseBtn.MouseButton1Up, function()
             Image = "rbxassetid://7733911828"
         })
     else
-        OrionLib:MakeNotification({
-            Name = "非表示や表示の切り替え",
-            Content = "パソコンの方はキーボードでMキーで切り替えできます\nスマホの方はキーボードスクリプトの方からMキーで切り替えできます",
-            Time = 13,
-            Image = "rbxassetid://7733911828"
-        })
 
         wait(1)
         OrionLib:MakeNotification({
