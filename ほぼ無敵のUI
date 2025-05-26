@@ -828,8 +828,8 @@ AddConnection(CloseBtn.MouseButton1Up, function()
 
     if isWhitelisted then
         OrionLib:MakeNotification({
-            Name = "非表示や表示の切り替え",
-            Content = "パソコンの方はキーボードでMキーで切り替えできます\nスマホの方はキーボードスクリプトの方からMキーで切り替えできます",
+            Name = "作成者",
+            Content = "さかにたにへ",
             Time = 13,
             Image = "rbxassetid://7733911828"
         })
