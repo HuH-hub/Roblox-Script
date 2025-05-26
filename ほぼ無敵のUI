@@ -847,20 +847,27 @@ AddConnection(CloseBtn.MouseButton1Up, function()
             Time = 13,
             Image = "rbxassetid://7733911828"
         })
-    else
-        OrionLib:MakeNotification({
-            Name = "あなたはゲイ？",
-            Content = "はい or 𝑌𝑒𝑠",
-            Time = 10,
-            Image = "rbxassetid://7733911828"
-        })
 
-        wait(2) -- 2秒待ってから
-
+        wait(1) -- 少し時間おいてから
         OrionLib:MakeNotification({
             Name = "認証成功",
             Content = "認証成功したよ〜",
             Time = 7,
+            Image = "rbxassetid://7733911828"
+        })
+    else
+        OrionLib:MakeNotification({
+            Name = "非表示や表示の切り替え",
+            Content = "パソコンの方はキーボードでMキーで切り替えできます\nスマホの方はキーボードスクリプトの方からMキーで切り替えできます",
+            Time = 13,
+            Image = "rbxassetid://7733911828"
+        })
+
+        wait(1)
+        OrionLib:MakeNotification({
+            Name = "あなたはゲイ？",
+            Content = "はい or 𝑌𝑒𝑠",
+            Time = 10,
             Image = "rbxassetid://7733911828"
         })
     end
