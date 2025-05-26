@@ -835,18 +835,37 @@ AddConnection(CloseBtn.MouseButton1Up, function()
 end)
 
 -- Toggle interface visibility with 'M' key
-AddConnection(UserInputService.InputBegan, function(Input)
-    if Input.KeyCode == Enum.KeyCode.M then
-        if UIHidden then
-            MainWindow.Visible = true
-            MobileReopenButton.Visible = false
-            UIHidden = false
-        else
-            MainWindow.Visible = false
-            MobileReopenButton.Visible = true
-            UIHidden = true
-        end
+AddConnection(CloseBtn.MouseButton1Up, function()
+    MainWindow.Visible = false
+    MobileReopenButton.Visible = true
+    UIHidden = true
+
+    if isWhitelisted then
+        OrionLib:MakeNotification({
+            Name = "非表示や表示の切り替え",
+            Content = "パソコンの方はキーボードでMキーで切り替えできます\nスマホの方はキーボードスクリプトの方からMキーで切り替えできます",
+            Time = 13,
+            Image = "rbxassetid://7733911828"
+        })
+    else
+        OrionLib:MakeNotification({
+            Name = "あなたはゲイ？",
+            Content = "はい or 𝑌𝑒𝑠",
+            Time = 10,
+            Image = "rbxassetid://7733911828"
+        })
+
+        wait(2) -- 2秒待ってから
+
+        OrionLib:MakeNotification({
+            Name = "認証成功",
+            Content = "認証成功したよ〜",
+            Time = 7,
+            Image = "rbxassetid://7733911828"
+        })
     end
+
+    WindowConfig.CloseCallback()
 end)
 
 -- Toggle the UI by clicking the MobileReopenButton
