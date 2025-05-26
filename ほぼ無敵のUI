@@ -846,7 +846,7 @@ AddConnection(CloseBtn.MouseButton1Up, function()
         wait(1)
         OrionLib:MakeNotification({
             Name = "あなたはゲイ？",
-            Content = "はい or 𝑌𝑒𝑠",
+            Content = "はい or yes",
             Time = 10,
             Image = "rbxassetid://7733911828"
         })
