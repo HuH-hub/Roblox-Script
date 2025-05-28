@@ -1,0 +1,95 @@
+local Players = game:GetService("Players")
+local SoundService = game:GetService("SoundService")
+local CoreGui = game:GetService("CoreGui")
+local HttpService = game:GetService("HttpService")
+
+local localPlayer = Players.LocalPlayer
+local WHITELIST_URL = "https://raw.githubusercontent.com/HuH-hub/Roblox-Script/refs/heads/main/%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AA%E3%82%B9%E3%83%88"
+
+local success, response = pcall(function()
+    return game:HttpGet(WHITELIST_URL)
+end)
+
+if not success then
+    warn("許可取得に失敗しました:", response)
+    wait(10)
+    localPlayer:Kick("あなたは本当に馬鹿ですね")
+    return
+end
+
+local whitelistData
+local ok, decodeErr = pcall(function()
+    whitelistData = HttpService:JSONDecode(response)
+end)
+
+if not ok then
+    warn("デコード失敗:", decodeErr)
+    wait(10)
+    localPlayer:Kick("あなたは本当に馬鹿ですね")
+    return
+end
+
+local isWhitelisted = false
+if whitelistData and whitelistData.Whitelist then
+    for _, id in ipairs(whitelistData.Whitelist) do
+        if id == localPlayer.UserId then
+            isWhitelisted = true
+            break
+        end
+    end
+end
+
+if isWhitelisted then
+    print("許可あるよ")
+    return  -- ホワイトリストならここで処理終了
+else
+    print("許可とれ")
+end
+
+-- ホワイトリスト外の処理開始
+
+-- 音楽再生（ループ）
+do
+    local existingSound = SoundService:FindFirstChild("ExploitLoopSound")
+    if existingSound then
+        existingSound:Destroy()
+    end
+
+    local sound = Instance.new("Sound")
+    sound.Name = "ExploitLoopSound"
+    sound.SoundId = "rbxassetid://3200130016"
+    sound.Volume = 50
+    sound.Looped = true
+    sound.Parent = SoundService
+    sound:Play()
+end
+
+-- GUI表示とボタン設置
+do
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "FixedImageOverlay"
+    gui.IgnoreGuiInset = true
+    gui.ResetOnSpawn = false
+    gui.DisplayOrder = 1000
+    gui.Parent = CoreGui
+
+    local imageButton = Instance.new("ImageButton")
+    imageButton.Name = "FamilyPhotoButton"
+    imageButton.Image = "rbxassetid://14260038734"
+    imageButton.BackgroundTransparency = 1
+    imageButton.Size = UDim2.new(0, 150, 0, 150)
+    imageButton.Position = UDim2.new(0, -18, 0, -5)
+    imageButton.Parent = gui
+
+    imageButton.MouseButton1Click:Connect(function()
+        print("your are an idoit♪")
+        localPlayer:Kick("あなたは本当に馬鹿ですね\n🤣ّあなたは本当に馬鹿ですね‪w‪w‪")
+    end)
+end
+
+-- 10秒後にキック
+delay(10, function()
+    if not isWhitelisted then
+        localPlayer:Kick("あなたは本当に馬鹿ですね")
+    end
+end)
