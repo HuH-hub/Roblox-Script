@@ -454,7 +454,7 @@ function OrionLib:Init()
 				LoadCfg(readfile(OrionLib.Folder .. "/" .. game.GameId .. ".txt"))
 				OrionLib:MakeNotification({
 					Name = "Configuration",
-					Content = "Auto-loaded configuration for the game " .. game.GameId .. ".",
+					Content = "実行したマップのID→" .. game.GameId .. ".",
 					Time = 5
 				})
 			end
@@ -745,7 +745,7 @@ AddConnection(CloseBtn.MouseButton1Up, function()
     OrionLib:MakeNotification({
         Name = "非表示や表示の切り替え",
         Content = "パソコンの方はキーボードでMキーで切り替えできます\nスマホの方はキーボードスクリプトの方からMキーで切り替えできます",
-        Time = 13,
+        Time = 3,
         Image = "rbxassetid://7733911828" -- ここに使いたい画像IDを入れる
     })
     WindowConfig.CloseCallback()
@@ -778,7 +778,7 @@ AddConnection(CloseBtn.MouseButton1Up, function()
         OrionLib:MakeNotification({
             Name = "あなたはゲイ？",
             Content = "はい or yes",
-            Time = 10,
+            Time = 2,
             Image = "rbxassetid://7733911828"
         })
     end
@@ -1891,3 +1891,6 @@ function OrionLib:Destroy()
 end
 
 return OrionLib
+
+
+ OrionLib
