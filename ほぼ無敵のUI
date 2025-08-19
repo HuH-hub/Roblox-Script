@@ -454,7 +454,7 @@ function OrionLib:Init()
 				LoadCfg(readfile(OrionLib.Folder .. "/" .. game.GameId .. ".txt"))
 				OrionLib:MakeNotification({
 					Name = "Configuration",
-					Content = "実行したマップのID→" .. game.GameId .. ".",
+					Content = "実行したマップのIDは" .. game.GameId .. ".",
 					Time = 5
 				})
 			end
