@@ -1,0 +1,42 @@
+-- 改造版 Orion Lib をロード
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/HuH-hub/Roblox-Script/refs/heads/main/%E3%81%BB%E3%81%BC%E7%84%A1%E6%95%B5%E3%81%AEUI"))()
+
+-- ウィンドウ作成
+local Window = OrionLib:MakeWindow({
+    Name = "いっき",
+    HidePremium = true,
+    SaveConfig = true,
+    ConfigFolder = "AAA" -- 設定保存用フォルダ名
+})
+
+-- Tab作成
+local Tab = Window:MakeTab({
+    Name = "テスト",
+    Icon = "rbxassetid://4483345998", -- 適当に
+    PremiumOnly = false
+})
+
+-- Anti-AFK トグル用フラグ
+local AntiAFKEnabled = false
+
+-- トグル追加
+Tab:AddToggle({
+    Name = "Safe Anti-AFK",
+    Default = false,
+    Callback = function(Value)
+        AntiAFKEnabled = Value
+
+        if AntiAFKEnabled then
+            task.spawn(function()
+                local VirtualUser = game:GetService("VirtualUser")
+                while AntiAFKEnabled do
+                    task.wait(600) -- 10分ごとに仮想クリック
+                    VirtualUser:ClickButton1(Vector2.new(0,0))
+                end
+            end)
+        end
+    end
+})
+
+-- 初期化
+OrionLib:Init()
