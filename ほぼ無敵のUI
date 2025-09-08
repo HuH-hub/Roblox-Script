@@ -680,7 +680,6 @@ end
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 
--- メインのボタン作成
 local MobileReopenButton = SetChildren(
     SetProps(MakeElement("Button"), {
         Parent = Orion,
@@ -692,15 +691,15 @@ local MobileReopenButton = SetChildren(
         AnchorPoint = Vector2.new(0.5, 0.5)
     }),
     {
-        -- アイコン追加（ImageLabelとして作成）
+        -- アイコン
         SetProps(MakeElement("ImageLabel"), {
-            Image = "rbxassetid://8428020806", -- 新しいID
+            Image = "rbxassetid://8428020806",
             AnchorPoint = Vector2.new(0.5, 0.5),
             Position = UDim2.new(0.5, 0, 0.5, 0),
             Size = UDim2.new(0.7, 0, 0.7, 0),
-            BackgroundTransparency = 1,
+            BackgroundTransparency = 1
         }),
-        -- ボタン角丸
+        -- 角丸
         MakeElement("Corner", 1)
     }
 )
