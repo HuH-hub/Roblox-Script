@@ -680,24 +680,34 @@ end
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 
--- MobileReopenButton with Roblox image 17615525476
-local MobileReopenButton = SetChildren(SetProps(MakeElement("Button"), {
-    Parent = Orion,
-    Size = UDim2.new(0, 40, 0, 40),
-    Position = UDim2.new(0.5, -20, 0, 20),  -- Original position
-    BackgroundTransparency = 0,
-    BackgroundColor3 = OrionLib.Themes[OrionLib.SelectedTheme].Main,
-    Visible = false,
-    AnchorPoint = Vector2.new(0.5, 0.5)
-}), {
-    AddThemeObject(SetProps(MakeElement("Image", "rbxassetid://8428020806"), {
-        AnchorPoint = Vector2.new(0.5, 0.5),
-        Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(0.7, 0, 0.7, 0)
-    }), "Text"),
-    MakeElement("Corner", 1)
-})
+-- メインのボタン作成
+local MobileReopenButton = SetChildren(
+    SetProps(MakeElement("Button"), {
+        Parent = Orion,
+        Size = UDim2.new(0, 40, 0, 40),
+        Position = UDim2.new(0.5, -20, 0, 20),
+        BackgroundTransparency = 0,
+        BackgroundColor3 = OrionLib.Themes[OrionLib.SelectedTheme].Main,
+        Visible = false,
+        AnchorPoint = Vector2.new(0.5, 0.5)
+    }),
+    {
+        -- アイコン追加
+        SetProps(MakeElement("Image"), {
+            Parent = nil,  -- 後でSetChildrenで親付けされるのでnilでOK
+            Image = "rbxassetid://8428020806", -- 新しいIDに変更
+            AnchorPoint = Vector2.new(0.5, 0.5),
+            Position = UDim2.new(0.5, 0, 0.5, 0),
+            Size = UDim2.new(0.7, 0, 0.7, 0),
+            BackgroundTransparency = 1
+        }),
+        -- ボタン角丸
+        MakeElement("Corner", 1)
+    }
+)
 
+-- 親子関係を整理して表示確定
+MobileReopenButton.Image.Parent = MobileReopenButton  -- ここで親をButtonに設定
 -- Smooth drag function for MobileReopenButton
 local function MakeDraggable(button)
     local dragging
