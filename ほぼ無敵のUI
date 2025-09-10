@@ -751,6 +751,16 @@ AddConnection(CloseBtn.MouseButton1Up, function()
 end)
 
 -- Toggle interface visibility with 'M' key
+AddConnection(UserInputService.InputBegan, function(input, gpe)
+    if gpe then return end
+    if input.KeyCode == Enum.KeyCode.M then
+        MainWindow.Visible = not MainWindow.Visible
+        MobileReopenButton.Visible = not MainWindow.Visible
+        UIHidden = not UIHidden
+    end
+end)
+
+-- Toggle interface visibility with 'M' key
 AddConnection(CloseBtn.MouseButton1Up, function()
     MainWindow.Visible = false
     MobileReopenButton.Visible = true
