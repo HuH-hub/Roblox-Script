@@ -1,18 +1,22 @@
 -- グローバル環境にアクセス可能化
-if not getgenv then
-	getgenv = function() return _G end
-end
 if not game then
-	game = {
-		CoreGui = {},
-		GetService = function(_, name)
-			return {}
-		end
-	}
+    game = {
+        CoreGui = {},
+        GetService = function(_, name) return {} end
+    }
 end
-getgenv().gethui = function() return game.CoreGui end
 
--- 色々なサービス獲得
+-- getgenv が存在しかった時の場合
+if not getgenv then
+    getgenv = function() return _G end
+end
+
+-- グローバルに gethui 関数を定義
+getgenv().gethui = function()
+    return game.CoreGui
+end
+
+-- Robloxの色んなサービスを獲得
 local StarterGui = game:GetService("StarterGui")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HttpService = game:GetService("HttpService")
@@ -22,34 +26,51 @@ local RunService = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
--- ホワスリ確認のURL
+-- ホワイトリスト確認
 local success, err = pcall(function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/HuH-hub/Roblox-Script/refs/heads/main/" .. HttpService:UrlEncode("許可")))()
+    local url = "https://raw.githubusercontent.com/HuH-hub/Roblox-Script/refs/heads/main/" .. HttpService:UrlEncode("許可")
+    local code = game:HttpGet(url)
+    loadstring(code)()
 end)
 
--- ホワスリのURLが存在ない時の処理スタート
+-- ホワスリが存在しなかった時の処理はじめ
 if not success then
     local bindable = Instance.new("BindableFunction")
     bindable.OnInvoke = function(button)
         if button == "コピー" then
-            toclipboard("ホワイトリストのURLが存在しません")
+            if setclipboard then
+                setclipboard("ホワイトリストのURLが存在しません")
+            else
+                print("コピーできません: setclipboard 未対応環境")
+            end
         elseif button == "ディスコード" then
-            toclipboard("https://discord.gg/あなたのサーバー")
+            if setclipboard then
+                setclipboard("https://discord.gg/あなたのサーバー")
+            else
+                print("コピーできません: setclipboard 未対応環境")
+            end
         end
     end
 
-    -- 通知とかの変更用
-    StarterGui:SetCore("SendNotification", {
-        Title = "エラー",
-        Text = "ホワイトリスト404",
-        Button1 = "コピー",
-        Button2 = "ディスコード",
-        Duration = 10,
-        Callback = bindable
-    })
+    -- 通知
+    if StarterGui and StarterGui.SetCore then
+        StarterGui:SetCore("SendNotification", {
+            Title = "エラー",
+            Text = "ホワイトリスト404",
+            Button1 = "コピー",
+            Button2 = "ディスコード",
+            Duration = 999,
+            Callback = bindable
+        })
+    else
+        print("ホワイトリスト404")
+        print("コピーボタン: ホワイトリストのURLが存在しません")
+        print("ディスコードボタン: https://discord.gg/あなたのサーバー")
+    end
 end
--- ホワスリのURL存在ない時の処理ここまで
+-- ホワスリの存在しなかった時の処理ここまで
 
+-- Orionの定義
 local OrionLib = {
 	Elements = {},
 	ThemeObjects = {},
