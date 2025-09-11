@@ -79,7 +79,7 @@ local OrionLib = {
 	},
 	SelectedTheme = "Default",
 	Folder = nil,
-	SaveCfg = true
+	SaveCfg = false
 }
 
 local Icons = {}
