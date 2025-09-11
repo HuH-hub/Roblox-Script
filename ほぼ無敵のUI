@@ -1,13 +1,3 @@
--- 色々なサービス獲得
-local StarterGui = game:GetService("StarterGui")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local HttpService = game:GetService("HttpService")
-local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
-local RunService = game:GetService("RunService")
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
-
 -- グローバル環境にアクセス可能化
 if not getgenv then
 	getgenv = function() return _G end
@@ -21,6 +11,16 @@ if not game then
 	}
 end
 getgenv().gethui = function() return game.CoreGui end
+
+-- 色々なサービス獲得
+local StarterGui = game:GetService("StarterGui")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local HttpService = game:GetService("HttpService")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
 
 -- ホワスリ確認のURL
 local success, err = pcall(function()
