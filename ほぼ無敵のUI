@@ -2226,19 +2226,3 @@ function OrionLib:Destroy()
 end
 
 return OrionLib
-d = true,
-					TextTransparency = 0.4
-				}), "Text")
-			})
-		end
-		return ElementFunction	
-	end	
-	
-	return TabFunction
-end	
-
-function OrionLib:Destroy()
-	if Orion and Orion.Parent then pcall(function() Orion:Destroy() end) end
-end
-
-return OrionLib
