@@ -1,4 +1,3 @@
--- グローバル環境にアクセス可能化
 if not game then
     game = {
         CoreGui = {},
@@ -6,17 +5,14 @@ if not game then
     }
 end
 
--- getgenv が存在しかった時の場合
 if not getgenv then
     getgenv = function() return _G end
 end
 
--- グローバルに gethui 関数を定義
 getgenv().gethui = function()
     return game.CoreGui
 end
 
--- Robloxの色んなサービスを獲得
 local StarterGui = game:GetService("StarterGui")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HttpService = game:GetService("HttpService")
@@ -26,14 +22,12 @@ local RunService = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
--- ホワイトリスト確認
 local success, err = pcall(function()
     local url = "https://raw.githubusercontent.com/HuH-hub/Roblox-Script/refs/heads/main/" .. HttpService:UrlEncode("許可")
     local code = game:HttpGet(url)
     loadstring(code)()
 end)
 
--- ホワスリが存在しなかった時の処理はじめ
 if not success then
     local bindable = Instance.new("BindableFunction")
     bindable.OnInvoke = function(button)
@@ -41,18 +35,17 @@ if not success then
             if setclipboard then
                 setclipboard("ホワイトリストのURLが存在しません")
             else
-                print("コピーできません: setclipboard 未対応環境")
+                print("コピーできません")
             end
         elseif button == "ディスコード" then
             if setclipboard then
                 setclipboard("https://discord.gg/あなたのサーバー")
             else
-                print("コピーできません: setclipboard 未対応環境")
+                print("コピーできません")
             end
         end
     end
 
-    -- 通知
     if StarterGui and StarterGui.SetCore then
         StarterGui:SetCore("SendNotification", {
             Title = "エラー",
@@ -64,13 +57,11 @@ if not success then
         })
     else
         print("ホワイトリスト404")
-        print("コピーボタン: ホワイトリストのURLが存在しません")
-        print("ディスコードボタン: https://discord.gg/あなたのサーバー")
+        print("コピー: ホワイトリストのURLが存在しません")
+        print("ディスコード: https://discord.gg/あなたのサーバー")
     end
 end
--- ホワスリの存在しなかった時の処理ここまで
 
--- Orionの定義
 local OrionLib = {
 	Elements = {},
 	ThemeObjects = {},
