@@ -337,7 +337,7 @@ local function LoadCfg(Config)
 end
 
 -- UI設定をjsonにして保存
-local function SaveCfg(UIに設定したやつ)
+local function SaveCfg(OrionCfg_by_huh)
 	if not (writefile and OrionLib.Folder and Name) then return end	
 	local Data = {}
 	for i,v in pairs(OrionLib.Flags) do
