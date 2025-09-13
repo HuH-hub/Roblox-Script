@@ -266,7 +266,7 @@ local function Round(Number, Factor)
 end
 --gui作成の効率化はここまで
 
--- オブジェクト
+-- オブジェクトによってどの色にするか指定する
 local function ReturnProperty(Object)
 	if Object:IsA("Frame") or Object:IsA("TextButton") then
 		return "BackgroundColor3"
@@ -285,6 +285,7 @@ local function ReturnProperty(Object)
 	end	
 end
 
+-- UIパーツを登録また登録したすべての色を現在選んでいるテーマの色に即変える
 local function AddThemeObject(Object, Type)
 	if not OrionLib.ThemeObjects[Type] then
 		OrionLib.ThemeObjects[Type] = {}
@@ -302,6 +303,7 @@ local function SetTheme()
 	end	
 end
 
+-- 色を保存したり戻したりするための変換
 local function PackColor(Color)
 	return {R = Color.R * 255, G = Color.G * 255, B = Color.B * 255}
 end	
@@ -310,6 +312,7 @@ local function UnpackColor(Color)
 	return Color3.fromRGB(Color.R, Color.G, Color.B)
 end
 
+-- 保存された設定ファイルを読み込んでUIに反映
 local function LoadCfg(Config)
 	local s, Data = pcall(HttpService.JSONDecode, HttpService, Config)
 	if not s or not Data then return end
@@ -333,7 +336,8 @@ local function LoadCfg(Config)
 	end)
 end
 
-local function SaveCfg(Name)
+-- UI設定をjsonにして保存
+local function SaveCfg(UIに設定したやつ)
 	if not (writefile and OrionLib.Folder and Name) then return end	
 	local Data = {}
 	for i,v in pairs(OrionLib.Flags) do
@@ -348,9 +352,11 @@ local function SaveCfg(Name)
 	pcall(writefile, OrionLib.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
 end
 
+-- 入力防御用
 local WhitelistedMouse = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseButton3,Enum.UserInputType.Touch}
 local BlacklistedKeys = {Enum.KeyCode.Unknown,Enum.KeyCode.W,Enum.KeyCode.A,Enum.KeyCode.S,Enum.KeyCode.D,Enum.KeyCode.Up,Enum.KeyCode.Left,Enum.KeyCode.Down,Enum.KeyCode.Right,Enum.KeyCode.Slash,Enum.KeyCode.Tab,Enum.KeyCode.Backspace,Enum.KeyCode.Escape}
 
+-- チェック
 local function CheckKey(Table, Key)
 	for _, v in next, Table do
 		if v == Key then
@@ -358,6 +364,7 @@ local function CheckKey(Table, Key)
 		end
 	end
 end
+
 
 CreateElement("Corner", function(Scale, Offset)
 	local Corner = Create("UICorner", {
@@ -367,11 +374,37 @@ CreateElement("Corner", function(Scale, Offset)
 end)
 
 CreateElement("Stroke", function(Color, Thickness)
-	local Stroke = Create("UIStroke", {
-		Color = Color or Color3.fromRGB(255, 255, 255),
-		Thickness = Thickness or 1
-	})
-	return Stroke
+    local stroke = Create("UIStroke", {
+        Color = Color or Color3.fromRGB(255, 255, 255),
+        Thickness = Thickness or 1
+    })
+
+   
+    local colors = {
+    Color3.fromRGB(255, 0, 0),     -- 赤
+    Color3.fromRGB(255, 127, 0),   -- 橙
+    Color3.fromRGB(255, 255, 0),   -- 黄
+    Color3.fromRGB(0, 255, 0),     -- 緑
+    Color3.fromRGB(0, 0, 255),     -- 青
+    Color3.fromRGB(75, 0, 130),    -- 藍
+    Color3.fromRGB(148, 0, 211)    -- 紫
+}
+
+    spawn(function()
+        while true do
+            for _, c in ipairs(colors) do
+                local tween = TweenService:Create(
+                    stroke,
+                    TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut),
+                    {Color = c}
+                )
+                tween:Play()
+                tween.Completed:Wait()
+            end
+        end
+    end)
+
+    return stroke
 end)
 
 CreateElement("List", function(Scale, Offset)
